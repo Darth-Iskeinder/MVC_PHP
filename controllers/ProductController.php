@@ -2,5 +2,9 @@
 
 
 class ProductController {
-    //put your code here
+    
+    public function actionList() 
+    {
+        return true;
+    }
 }

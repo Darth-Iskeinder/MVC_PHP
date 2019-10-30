@@ -2,5 +2,9 @@
 
 
 class ArticleController {
-    //put your code here
+    
+    public function actionIndex() 
+    {
+        return true;
+    }
 }
