@@ -34,22 +34,30 @@ class Router {
                 
 
                 $controllerName = ucfirst(array_shift($segments)).'Controller';
+                
+                
                 $actionName = 'action'.ucfirst(array_shift($segments));
                 
+                //echo '<br>Класс: '.$controllerName;
+                //echo '<br>Метод: '.$actionName;
+                
                 //Подключить файл класса-контроллера
-                $controllerFile = ROOT . '/controller/'.$controllerName.'.php';
+                $controllerFile = ROOT . '/controllers/' . 
+                        $controllerName. '.php';
+                
                 if (file_exists($controllerFile)) {
                     include_once($controllerFile);
                 }
                 
+                //Создать объект, вызвать метод
+                $controllerObject = new $controllerName;
+                $result = $controllerObject->$actionName();
+                if ($result != null) {
+                    break;
+                }
               
             }
         }
-        
-         
-        
-        //
-        
-        //Создать объект, вызвать метод
+
     }
 }

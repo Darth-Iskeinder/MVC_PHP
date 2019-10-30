@@ -1,6 +1,12 @@
 <?php
 
 
-class NewsController {
-    //put your code here
+class NewsController 
+{
+    
+    public function  actionIndex() 
+    {
+        echo 'NewsController actionIndex';
+        return true;
+    }
 }
