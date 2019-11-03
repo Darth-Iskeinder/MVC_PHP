@@ -1,23 +1,24 @@
 <?php
 
+
 class Router {
-    
     private $routes;
-    public function __construct()
+    
+    public function __construct() 
     {
-        $routesPath= ROOT.'/config/routes.php';
-        $this->routes = include($routesPath);
-        
+        $routerPath = ROOT.'/config/routes.php';
+        $this->routes = include($routerPath);
     }
     
     //Return request string
-    private function getURI() 
+    public function getURI() 
     {
-        if (!empty($_SERVER['REQUEST_URI'])) {
+       if (!empty($_SERVER['REQUEST_URI'])) {
             return trim($_SERVER['REQUEST_URI'], '/');
-        }
+        } 
     }
-    public function run()
+    
+    public function run() 
     {
         //Получить строку запроса
         $uri = $this->getURI();
@@ -29,21 +30,29 @@ class Router {
             //Сравниваем $uriPattern и $uri
             if (preg_match("~$uriPattern~", $uri)) {
                 
+                
+                 
+                //Получаем внутренний путь из внешнего согласно правилу
+                $internalRoute = preg_replace("~$uriPattern~", $path, $uri);
+                
+                
                 //Определить какой контроллер и action обрабатывают запрос
-                $segments = explode('/', $path);
+                $segments = explode('/', $internalRoute);
                 
-
                 $controllerName = ucfirst(array_shift($segments)).'Controller';
-                
-                
                 $actionName = 'action'.ucfirst(array_shift($segments));
+                                
+                echo '<br>controller name: '.$controllerName;
+                echo '<br>action name: '.$actionName;
+                $parameters = $segments;
+                echo '<pre>';
+                print_r($parameters);
                 
-                //echo '<br>Класс: '.$controllerName;
-                //echo '<br>Метод: '.$actionName;
+                die;
+               
                 
                 //Подключить файл класса-контроллера
-                $controllerFile = ROOT . '/controllers/' . 
-                        $controllerName. '.php';
+                $controllerFile = ROOT.'/controllers/'.$controllerName.'.php';
                 
                 if (file_exists($controllerFile)) {
                     include_once($controllerFile);
@@ -51,13 +60,15 @@ class Router {
                 
                 //Создать объект, вызвать метод
                 $controllerObject = new $controllerName;
+                
                 $result = $controllerObject->$actionName();
                 if ($result != null) {
                     break;
                 }
-              
+                
             }
         }
+        
 
     }
 }

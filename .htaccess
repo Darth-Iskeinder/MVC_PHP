@@ -1,4 +1,5 @@
-AddDefaultCharset utf-8
+﻿AddDefaultCharset utf-8
+
 RewriteEngine on
 RewriteBase /
 

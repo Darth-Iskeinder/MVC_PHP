@@ -1,12 +1,17 @@
 <?php
 
 
-class NewsController 
-{
+class NewsController {
     
-    public function  actionIndex() 
+    public function actionIndex() 
     {
-        echo 'NewsController actionIndex';
+        echo 'Список новостей';
         return true;
+    }
+    public function actionView($category, $id) 
+    {
+        echo $category;
+        echo $id;
+        
     }
 }
